@@ -5,7 +5,6 @@ from discord.ext import commands, timers
 import requests
 import json
 import random
-from keep_alive import keep_alive
 from googlesearch import search
 import asyncio
 from decouple import config
