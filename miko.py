@@ -10,7 +10,6 @@ import asyncio
 from decouple import config
 
 
-token = os.environ['token']
 intents = discord.Intents.default()
 intents.members = True
 intents.presences = True
