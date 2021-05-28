@@ -221,5 +221,5 @@ async def on_message(message):
         response = random.choice(die_quote)
         await message.channel.send(f'{message.author.mention}\n{response}')       
 
-token = config("Token")
+token = config("TOKEN")
 client.run(token)        
