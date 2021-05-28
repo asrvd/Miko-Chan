@@ -6,6 +6,7 @@ import requests
 import json
 import random
 import asyncio
+from decouple import config
 
 GUILD_ID = 785024897863647282
 CAFE_LOUNGE_ID = 801100961313194004
