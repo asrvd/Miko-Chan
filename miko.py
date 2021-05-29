@@ -75,57 +75,64 @@ user_list = []
 
 @client.command()
 async def start(ctx, time: int):
-  if ctx.channel.id == CAFE_LOUNGE_ID:
-    global pomodoro_timer
-    pomodoro_timer = True
-    global showTimer
-    showTimer = False
-    global specialBreakTime
-    specialBreakTime = False
+  if ctx.author.id not in user_list:
+    if ctx.channel.id == CAFE_LOUNGE_ID:
+      global pomodoro_timer
+      pomodoro_timer = True
+      global showTimer
+      showTimer = False
+      global specialBreakTime
+      specialBreakTime = False
 
 
-    t = time*60 + 1 #pomodoro time in seconds
-    hour = int(time/60)
-    minute = time%60
+      t = time*60 + 1 #pomodoro time in seconds
+      hour = int(time/60)
+      minute = time%60
 
-    while(t):
-        mins, secs = divmod(t, 60) 
-        timer = "**{:02d}:{:02d}**".format(mins, secs) 
-        await asyncio.sleep(1) 
-        t -= 1
-        
-        #displays time remaining
-        if(showTimer):
-          emb = discord.Embed(
-          title="", description=f"{timer}", color=0xe81741)
-          await ctx.send(embed=emb, delete_after=20) 
-          showTimer = False
+      while(t):
+          mins, secs = divmod(t, 60) 
+          timer = "**{:02d}:{:02d}**".format(mins, secs) 
+          await asyncio.sleep(1) 
+          t -= 1
 
-        #stops clock
-        if(pomodoro_timer == False):
-            break
+          #displays time remaining
+          if(showTimer):
+            emb = discord.Embed(
+            title="", description=f"{timer}", color=0xe81741)
+            await ctx.send(embed=emb, delete_after=20) 
+            showTimer = False
 
-
-        #start of clock
-        if(t == time*60):
-          emb = discord.Embed(
-        title="", description=f"**⏱ Your focus time is set to {hour} hour and {minute} minutes ⏱\n\n😀 Good Luck! 😀**", color=0xe81741)
-          await ctx.send(ctx.author.mention)
-          await ctx.send(embed=emb)
-          add_time(ctx.author.id, time)
-          user_list.append(ctx.author.id)
+          #stops clock
+          if(pomodoro_timer == False):
+              break
 
 
-        #break time
-        elif(t == 0):
-          emb = discord.Embed(
-          title="", description=f"**⏱ Your focus time has ended ⏱\n\n😀 Take a break 😀**", color=0xe81741)
-          await ctx.send(ctx.author.mention)
-          await ctx.send(embed=emb)
-          user_list.remove(ctx.author.id)
+          #start of clock
+          if(t == time*60):
+            emb = discord.Embed(
+          title="", description=f"**⏱ Your focus time is set to {hour} hour and {minute} minutes ⏱\n\n😀 Good Luck! 😀**", color=0xe81741)
+            await ctx.send(ctx.author.mention)
+            await ctx.send(embed=emb)
+            add_time(ctx.author.id, time)
+            user_list.append(ctx.author.id)
+
+
+          #break time
+          elif(t == 0):
+            emb = discord.Embed(
+            title="", description=f"**⏱ Your focus time has ended ⏱\n\n😀 Take a break 😀**", color=0xe81741)
+            await ctx.send(ctx.author.mention)
+            await ctx.send(embed=emb)
+            user_list.remove(ctx.author.id)
+    else:
+      return
   else:
-    return
-
+     emb = discord.Embed(
+      title="", description=f"**You are already working!.**", color=0xe81741)
+     await ctx.send(ctx.author.mention)
+     await ctx.send(embed=emb) 
+    
+    
 @client.command()
 async def total(ctx):
   hour, minutes = return_time(ctx.author.id)
