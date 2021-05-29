@@ -58,7 +58,7 @@ async def help(ctx):
       inline=False
     )
     h.add_field(
-      name="__WARNING__", value="If you are using focus timer, the time focused will be added only after you complete your focus time. Using `m.stop` will not owrk, So no cheating now, grind hard!", inline=False
+      name="__WARNING__", value="If you are using focus timer, the time focused will be added only after you complete your focus time. Using `m.stop` will not work, So no cheating now, grind hard!", inline=False
     )
     h.add_field(
       name="__MISC__", value="Miko Chan also replies to you when you say `I love you miko chan` or `I hate you miko chan`", inline=False
