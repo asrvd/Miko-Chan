@@ -58,6 +58,9 @@ async def help(ctx):
       inline=False
     )
     h.add_field(
+      name="__WARNING__", value="If you are using focus timer, the time focused will be added only after you complete your focus time. Using `m.stop` will not owrk, So no cheating now, grind hard!", inline=False
+    )
+    h.add_field(
       name="__MISC__", value="Miko Chan also replies to you when you say `I love you miko chan` or `I hate you miko chan`", inline=False
     )
 
@@ -113,7 +116,6 @@ async def start(ctx, time: int):
           title="", description=f"**⏱ Your focus time is set to {hour} hour and {minute} minutes ⏱\n\n😀 Good Luck! 😀**", color=0xe81741)
             await ctx.send(ctx.author.mention)
             await ctx.send(embed=emb)
-            add_time(ctx.author.id, time)
             user_list.append(ctx.author.id)
 
 
@@ -123,6 +125,7 @@ async def start(ctx, time: int):
             title="", description=f"**⏱ Your focus time has ended ⏱\n\n😀 Take a break 😀**", color=0xe81741)
             await ctx.send(ctx.author.mention)
             await ctx.send(embed=emb)
+            add_time(ctx.author.id, time)
             user_list.remove(ctx.author.id)
     else:
       return
