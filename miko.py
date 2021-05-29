@@ -7,6 +7,7 @@ import json
 import random
 import asyncio
 from decouple import config
+from database import add_time, return_time
 
 GUILD_ID = 785024897863647282
 CAFE_LOUNGE_ID = 801100961313194004
@@ -53,7 +54,7 @@ async def help(ctx):
     )
     h.add_field(
       name="__COMMANDS__",
-      value=f"`start (time)` Starts the focus timer.\n`stop` Stops the focus timer.\n`showtimer` Shows your remaining focus time.\n`inspire` Miko chan sends an inspirational quote for you.\n`padhle (user)` Just a normal study reminder for fun",
+      value=f"`start (time)` Starts the focus timer.\n`stop` Stops the focus timer.\n`total` Shows the total time you have focused.\n`inspire` Miko chan sends an inspirational quote for you.\n`padhle (user)` Just a normal study reminder for fun",
       inline=False
     )
     h.add_field(
@@ -108,16 +109,17 @@ async def start(ctx, time: int):
         #start of clock
         if(t == time*60):
           emb = discord.Embed(
-        title="", description=f"**⏱Your focus time is set to {hour} hour and {minute} minutes⏱\n\n😀Good Luck!😀**", color=0xe81741)
+        title="", description=f"**⏱ Your focus time is set to {hour} hour and {minute} minutes ⏱\n\n😀 Good Luck! 😀**", color=0xe81741)
           await ctx.send(ctx.author.mention)
           await ctx.send(embed=emb)
+          add_time(ctx.author.id, time)
           user_list.append(ctx.author.id)
 
 
         #break time
         elif(t == 0):
           emb = discord.Embed(
-          title="", description=f"**⏱Your focus time has ended⏱\n\n😀Take a break😀**", color=0xe81741)
+          title="", description=f"**⏱ Your focus time has ended ⏱\n\n😀 Take a break 😀**", color=0xe81741)
           await ctx.send(ctx.author.mention)
           await ctx.send(embed=emb)
           user_list.remove(ctx.author.id)
@@ -125,13 +127,21 @@ async def start(ctx, time: int):
     return
 
 @client.command()
+async def total(ctx):
+  hour, minutes = return_time(ctx.author.id)
+  emb = discord.Embed(
+    title="", description=f"**You have focused for {hour} hour and {minutes} minutes till now.**", color=0xe81741)
+  await ctx.send(ctx.author.mention)
+  await ctx.send(embed=emb)
+  
+@client.command()
 async def stop(ctx):
   if ctx.channel.id == CAFE_LOUNGE_ID:
     if ctx.author.id in user_list:
       global pomodoro_timer 
       pomodoro_timer = False
       emb = discord.Embed(
-      title="", description=f"**⚠Your timer has been stopped!⚠**", color=0xe81741)
+      title="", description=f"**⚠ Your timer has been stopped! ⚠**", color=0xe81741)
       await ctx.send(ctx.author.mention)
       await ctx.send(embed=emb)
       user_list.remove(ctx.author.id)
@@ -142,24 +152,6 @@ async def stop(ctx):
       await ctx.send(embed=emb) 
   else:
     return    
-
-@client.command() 
-async def showtimer(ctx):
-  if ctx.channel.id == CAFE_LOUNGE_ID:
-    if ctx.author.id in user_list:
-      global showTimer
-      showTimer = True
-      emb = discord.Embed(
-      title="", description=f"**Here is the time remaining on the Pomodoro Clock:**", color=0xe81741)
-      await ctx.send(ctx.author.mention, delete_after=30)
-      await ctx.send(embed=emb, delete_after=30)
-    else:
-      emb = discord.Embed(
-      title="", description=f"**You are not currently working! Use m.start [time] to start a timer.**", color=0xe81741)
-      await ctx.send(ctx.author.mention, delete_after=20)
-      await ctx.send(embed=emb, delete_after=20)
-  else:
-    return
 
 @client.command()
 async def padhle(ctx, m1: discord.User = None):
