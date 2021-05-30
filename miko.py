@@ -244,12 +244,7 @@ async def on_message(message):
     
     if 'tired' in message.content.lower():
         response = random.choice(tired_quote)
-        await message.channel.send(f'{message.author.mention}\n{response}')
-    
-    if 'die' in message.content.lower():
-        response = random.choice(die_quote)
-        await message.channel.send(f'{message.author.mention}\n{response}')       
- 
+        await message.channel.send(f'{message.author.mention}\n{response}') 
 
 token = config("TOKEN")
 client.run(token)        
