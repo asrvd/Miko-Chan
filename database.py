@@ -4,7 +4,7 @@ def add_time(user, time):
   if user in db:
     t = db[user]
     t = t + time
-    db[user] = time
+    db[user] = t
   else:
     db[user] = time
     
