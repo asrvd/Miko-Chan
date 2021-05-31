@@ -3,3 +3,4 @@ python-decouple
 discord-timers
 google
 requests
+pyrebase
