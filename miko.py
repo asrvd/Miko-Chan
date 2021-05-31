@@ -23,7 +23,7 @@ client.timer_manager = timers.TimerManager(client)
 GUILD = client.get_guild(GUILD_ID)
 LOUNGE = client.get_channel(CAFE_LOUNGE_ID)
 
-firebase = pyrebase.initialize_app(config("firebaseConfig"))
+firebase = pyrebase.initialize_app(config(firebaseConfig))
 db = firebase.database()
 
 def create(user: int, time: int):
