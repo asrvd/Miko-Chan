@@ -7,7 +7,7 @@ import json
 import random
 import asyncio
 from decouple import config
-from database import add_time, return_time
+import pyrebase
 
 GUILD_ID = 785024897863647282
 CAFE_LOUNGE_ID = 801100961313194004
@@ -23,6 +23,32 @@ client.timer_manager = timers.TimerManager(client)
 GUILD = client.get_guild(GUILD_ID)
 LOUNGE = client.get_channel(CAFE_LOUNGE_ID)
 
+firebase = pyrebase.initialize_app(config("firebaseconfig"))
+db = firebase.database()
+
+def create(user: int, time: int):
+    db.child("USER_TIME").child(user).set(
+        {"TOTAL": time}
+    )
+
+def add_time(user: int, time: int):
+  users = db.child("USER_TIME")
+  if user not in users.keys():
+    create(user, time)
+  else:
+    user = db.child("USER_TIME").child(user)
+    t = user.val()
+    t = t + time
+    db.child("USER_TIME").child(user).update({"TOTAL": time})
+    
+def return_time(user: int):
+  auth = db.child("USER_TIME").child(user)
+  t = auth.val()
+  hour = int(t/60)
+  min = t%60
+  return hour, min
+   
+    
 @client.event
 async def on_ready():
   await client.change_presence(status=discord.Status.online, activity=discord.Game('With Ashish'))
@@ -169,7 +195,8 @@ async def padhle(ctx, m1: discord.User = None):
     "**Pyaar vyaar sab dhoka hai, padhle bete mauka hai..**",
     "**Padhlo beta, agar General Category se ho to**",
     "**Chacha vidhayak hai kya tumhare? Nahi he to jao padh lo**",
-    "**Padhlo beta mauka he, aakhir kisne tumko roka hai?**"
+    "**Padhlo beta mauka he, aakhir kisne tumko roka hai?**",
+    "**Abbe padhai likhai karo, IITian, doctor bano..**"
   ]
   if m1 == None:
     m1 = ctx.author
