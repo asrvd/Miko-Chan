@@ -36,8 +36,8 @@ def add_time(user: int, time: int):
   if users==None:
     create(user, time)
   else:
-    user = db.child("USER_TIME").child(user).child("TOTAL").get()
-    t = user.val()
+    auth = db.child("USER_TIME").child(user).child("TOTAL").get()
+    t = auth.val()
     t = t + time
     db.child("USER_TIME").child(user).update({"TOTAL": t})
     
