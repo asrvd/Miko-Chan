@@ -32,17 +32,17 @@ def create(user: int, time: int):
     )
 
 def add_time(user: int, time: int):
-  users = db.child("USER_TIME")
-  if user not in users.keys():
+  users = list(db.child("USER_TIME").shallow().get().val())
+  if str(user) not in users:
     create(user, time)
   else:
-    user = db.child("USER_TIME").child(user)
+    user = db.child("USER_TIME").child(user).get()
     t = user.val()
     t = t + time
     db.child("USER_TIME").child(user).update({"TOTAL": time})
     
 def return_time(user: int):
-  auth = db.child("USER_TIME").child(user)
+  auth = db.child("USER_TIME").child(user).get()
   t = auth.val()
   hour = int(t/60)
   min = t%60
