@@ -32,7 +32,7 @@ def create(user: int, time: int):
     )
 
 def add_time(user: int, time: int):
-  users = list(db.child("USER_TIME").shallow().get().val())
+  users = db.child("USER_TIME").shallow().get().val()
   if users==None:
     create(user, time)
   else:
