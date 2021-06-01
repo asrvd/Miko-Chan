@@ -170,6 +170,18 @@ async def total(ctx):
     title="", description=f"**You have focused for {hour} hour and {minutes} minutes till now.**", color=0xe81741)
   await ctx.send(ctx.author.mention)
   await ctx.send(embed=emb)
+    
+@client.command()
+async def arz(ctx):
+    shayari=[
+        "*samundar ke kinare abadi nahi hoti, jisse pyar ho usse shadi nhi hoti..*",
+        "*Ladki ka hasna adda hai, jo use pyaar samjhe vo gadha hai..*",
+        "*tera bhi katega..*",
+        "*kadu kata hai mere dost intejaar kar sabme batega,\nishq hua hai? intejaar kar tera bhi katega..*",
+        "*ab na tere aana ki khushi rhi na tere jaane ka gam,\nvo jamana beet gya jab tere diwane the hum..*  
+    ]
+    emb = discord.Embed(title="", description=f"{random.choice(shayari)}", color=0xe81741)
+    await ctx.send(embed=emb)
   
 @client.command()
 async def stop(ctx):
@@ -242,14 +254,16 @@ async def on_message(message):
     ]
     
     if message.author.id in user_list:
-      if message.content.startswith('m.') or message.content.startswith('s.') or message.content.startswith('S.'):
-        return
-      else:
-        if message.author.id == 534384083925598218:
-          await message.channel.send(f'{message.author.mention}\n**Onii Chan Baka..** If you talk during your focus time I will kill you🔪..', delete_after=15)
+        if message.channel.id == CAFE_LOUNGE_ID:
+          if message.content.startswith('m.') or message.content.startswith('s.') or message.content.startswith('S.'):
+            return
+          else:
+            if message.author.id == 534384083925598218:
+              await message.channel.send(f'{message.author.mention}\n**Onii Chan Baka..** If you talk during your focus time I will kill you🔪..', delete_after=15)
+            else:
+              await message.channel.send(f'{message.author.mention}\n**Onii Chan Baka..** If you talk during your focus time I will not love you😡..', delete_after=15)
         else:
-          await message.channel.send(f'{message.author.mention}\n**Onii Chan Baka..** If you talk during your focus time I will not love you😡..', delete_after=15)
-
+            return
 
     if 'hate you' in message.content.lower() and 'miko chan' in message.content.lower():
       if message.author.id == 784363251940458516:
