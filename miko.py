@@ -36,13 +36,13 @@ def add_time(user: int, time: int):
   if users==None:
     create(user, time)
   else:
-    user = db.child("USER_TIME").child(user).get()
+    user = db.child("USER_TIME").child(user).child("TIME").get()
     t = user.val()
     t = t + time
     db.child("USER_TIME").child(user).update({"TOTAL": time})
     
 def return_time(user: int):
-  auth = db.child("USER_TIME").child(user).get()
+  auth = db.child("USER_TIME").child(user).child("TOTAL").get()
   t = auth.val()
   hour = int(t/60)
   min = t%60
