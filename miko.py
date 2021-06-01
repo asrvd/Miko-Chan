@@ -209,7 +209,8 @@ async def padhle(ctx, m1: discord.User = None):
     "**Padhlo beta, agar General Category se ho to**",
     "**Chacha vidhayak hai kya tumhare? Nahi he to jao padh lo**",
     "**Padhlo beta mauka he, aakhir kisne tumko roka hai?**",
-    "**Abbe padhai likhai karo, IITian, doctor bano..**"
+    "**Abbe padhai likhai karo, IITian, doctor bano..**",
+    "**Tera bhi katega, fir tu bhi physics padhega/padhegi..**"  
   ]
   if m1 == None:
     m1 = ctx.author
