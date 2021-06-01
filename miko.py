@@ -178,7 +178,7 @@ async def arz(ctx):
         "*Ladki ka hasna adda hai, jo use pyaar samjhe vo gadha hai..*",
         "*tera bhi katega..*",
         "*kadu kata hai mere dost intejaar kar sabme batega,\nishq hua hai? intejaar kar tera bhi katega..*",
-        "*ab na tere aana ki khushi rhi na tere jaane ka gam,\nvo jamana beet gya jab tere diwane the hum..*  
+        "*ab na tere aana ki khushi rhi na tere jaane ka gam,\nvo jamana beet gya jab tere diwane the hum..*"  
     ]
     emb = discord.Embed(title="", description=f"{random.choice(shayari)}", color=0xe81741)
     await ctx.send(embed=emb)
