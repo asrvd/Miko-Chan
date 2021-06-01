@@ -33,7 +33,7 @@ def create(user: int, time: int):
 
 def add_time(user: int, time: int):
   users = list(db.child("USER_TIME").shallow().get().val())
-  if str(user) not in users:
+  if users==None:
     create(user, time)
   else:
     user = db.child("USER_TIME").child(user).get()
@@ -151,8 +151,9 @@ async def start(ctx, time: int):
             title="", description=f"**⏱ Your focus time has ended ⏱\n\n😀 Take a break 😀**", color=0xe81741)
             await ctx.send(ctx.author.mention)
             await ctx.send(embed=emb)
-            add_time(ctx.author.id, time)
             user_list.remove(ctx.author.id)
+            add_time(ctx.author.id, time)
+            
     else:
       return
   else:
