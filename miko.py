@@ -281,13 +281,7 @@ async def on_message(message):
         await message.channel.send(f'{message.author.mention}\nI love ASHISH but we can spend some time together SENSEI..❤️', delete_after=10)  
       else:
         await message.channel.send(f'{message.author.mention}\nI belong to only ASHISH❤️ But I can leave him for you if you are worthy enough..❤️', delete_after=10)
-    if 'failed' in message.content.lower():
-        response = random.choice(fail_quote)
-        await message.channel.send(f'{message.author.mention}\n{response}')
-    
-    if 'tired' in message.content.lower():
-        response = random.choice(tired_quote)
-        await message.channel.send(f'{message.author.mention}\n{response}') 
+
 
 token = config("TOKEN")
 client.run(token)        
