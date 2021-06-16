@@ -174,13 +174,15 @@ async def total(ctx):
 @client.command()
 async def arz(ctx):
     shayari=[
-        "*samundar ke kinare abadi nahi hoti, jisse pyar ho usse shadi nhi hoti..*",
-        "*Ladki ka hasna adda hai, jo use pyaar samjhe vo gadha hai..*",
-        "*tera bhi katega..*",
-        "*kadu kata hai mere dost intejaar kar sabme batega,\nishq hua hai? intejaar kar tera bhi katega..*",
-        "*ab na tere aana ki khushi rhi na tere jaane ka gam,\nvo jamana beet gya jab tere diwane the hum..*"  
+        "*samundar ke kinare abadi nahi hoti, jisse pyar ho usse shadi nhi hoti..\n~SENSEI*",
+        "*Ladki ka hasna adda hai, jo use pyaar samjhe vo gadha hai..\n~SENSEI*",
+        "*tera bhi katega..\n~SENSEI*",
+        "*kadu kata hai mere dost intejaar kar sabme batega,\nishq hua hai? intejaar kar tera bhi katega..\n~SENSEI*",
+        "*ab na tere aana ki khushi rhi na tere jaane ka gam,\nvo jamana beet gya jab tere diwane the hum..\n~SENSEI*",
+        "*Wo tumhen DP dikhaakar gumraah karegi,\nMagar Tum Aadhaar card par adde rehna..\n~KAKASHI*",
+        "*yeh waqt bhi guzar jayega..\n~KAKASHI*"  
     ]
-    emb = discord.Embed(title="", description=f"{random.choice(shayari)}\n~SENSEI", color=0xe81741)
+    emb = discord.Embed(title="", description=f"{random.choice(shayari)}", color=0xe81741)
     await ctx.send(embed=emb)
   
 @client.command()
