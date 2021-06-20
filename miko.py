@@ -188,7 +188,7 @@ async def arz(ctx):
     await ctx.send(embed=emb)
 
 @client.command()
-async def say(ctx, message):
+async def say(ctx, *,message):
   emb = discord.Embed(title=message, color=0xe81741)
   await ctx.send(embed = emb)
 
