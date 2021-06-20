@@ -31,6 +31,13 @@ def create(user: int, time: int):
         {"TOTAL": time}
     )
 
+def check(user: int):
+  auth = db.child("USER_TIME").child(user).get().val()
+  if auth == None:
+    return False
+  else:
+    return True  
+
 def add_time(user: int, time: int):
   users = db.child("USER_TIME").child(user).get().val()
   if users==None:
@@ -80,7 +87,7 @@ async def help(ctx):
     )
     h.add_field(
       name="__COMMANDS__",
-      value=f"`start (time)` Starts the focus timer.\n`stop` Stops the focus timer.\n`total` Shows the total time you have focused.\n`inspire` Miko chan sends an inspirational quote for you.\n`padhle (user)` Just a normal study reminder for fun.\n`arz` Miko sends a not so heart warming shayari for you.",
+      value=f"`start (time)` Starts the focus timer.\n`stop` Stops the focus timer.\n`total` Shows the total time you have focused.\n`inspire` Miko chan sends an inspirational quote for you.\n`padhle (user)` Just a normal study reminder for fun.\n`arz` Miko sends a not so heart warming shayari for you.\n`say` Miko says what you want her to say.",
       inline=False
     )
     h.add_field(
@@ -89,14 +96,16 @@ async def help(ctx):
     h.add_field(
       name="__MISC__", value="Miko Chan also replies to you when you say `I love you miko chan` or `I hate you miko chan`", inline=False
     )
-
+    h.add_field(
+      name="__SOURCE__", value="`m.source`", inline=False
+    )
     await ctx.send(embed=h)
   except Exception as e:
     print(e)
 
-  @client.command()
-  async def source(self, ctx):
-    await ctx.send("To be updated soon!")
+@client.command()
+async def source(ctx):
+  await ctx.send("https://github.com/AsheeshhSenpai/Miko-Chan")
 
 #global variables 
 
@@ -104,15 +113,12 @@ user_list = []
 
 @client.command()
 async def start(ctx, time: int):
-  if ctx.author.id not in user_list:
+  if check(ctx.suthor.id) == False:
     if ctx.channel.id == CAFE_LOUNGE_ID:
       global pomodoro_timer
       pomodoro_timer = True
       global showTimer
       showTimer = False
-      global specialBreakTime
-      specialBreakTime = False
-
 
       t = time*60 + 1 #pomodoro time in seconds
       hour = int(time/60)
@@ -139,18 +145,16 @@ async def start(ctx, time: int):
           #start of clock
           if(t == time*60):
             emb = discord.Embed(
-          title="", description=f"**⏱ Your focus time is set to {hour} hour and {minute} minutes ⏱\n\n😀 Good Luck! 😀**", color=0xe81741)
-            await ctx.send(ctx.author.mention)
-            await ctx.send(embed=emb)
+          title="Timer Started!", description=f"⏱ Your focus time is set to {hour} hour and {minute} minutes ⏱\n\n😀 Good Luck! 😀", color=0xe81741)
+            await ctx.send(ctx.author.mention, embed=emb)
             user_list.append(ctx.author.id)
 
 
           #break time
           elif(t == 0):
             emb = discord.Embed(
-            title="", description=f"**⏱ Your focus time has ended ⏱\n\n😀 Take a break 😀**", color=0xe81741)
-            await ctx.send(ctx.author.mention)
-            await ctx.send(embed=emb)
+            title="Timer Ended!", description=f"⏱ Your focus time has ended ⏱\n\n😀 Take a break 😀", color=0xe81741)
+            await ctx.send(ctx.author.mention, embed=emb)
             user_list.remove(ctx.author.id)
             add_time(ctx.author.id, time)
             
@@ -159,17 +163,15 @@ async def start(ctx, time: int):
   else:
      emb = discord.Embed(
       title="", description=f"**You are already working!.**", color=0xe81741)
-     await ctx.send(ctx.author.mention)
-     await ctx.send(embed=emb) 
-    
-    
+     await ctx.send(ctx.author.mention, embed=emb)
+
+       
 @client.command()
 async def total(ctx):
   hour, minutes = return_time(ctx.author.id)
   emb = discord.Embed(
-    title="", description=f"**You have focused for {hour} hour and {minutes} minutes till now.**", color=0xe81741)
-  await ctx.send(ctx.author.mention)
-  await ctx.send(embed=emb)
+    title="Total Focused Time", description=f"You have focused for {hour} hour and {minutes} minutes till now.", color=0xe81741)
+  await ctx.send(ctx.author.mention, embed=emb)
     
 @client.command()
 async def arz(ctx):
@@ -184,7 +186,12 @@ async def arz(ctx):
     ]
     emb = discord.Embed(title="", description=f"{random.choice(shayari)}", color=0xe81741)
     await ctx.send(embed=emb)
-  
+
+@client.command()
+async def say(ctx, message):
+  emb = discord.Embed(title=message, color=0xe81741)
+  await ctx.send(embed = emb)
+
 @client.command()
 async def stop(ctx):
   if ctx.channel.id == CAFE_LOUNGE_ID:
@@ -256,7 +263,7 @@ async def on_message(message):
         "You're too hot to die >.<"
     ]
     
-    if message.author.id in user_list:
+    if check(message.author.id) == True:
         if message.channel.id == CAFE_LOUNGE_ID:
           if message.content.startswith('m.') or message.content.startswith('s.') or message.content.startswith('S.'):
             return
