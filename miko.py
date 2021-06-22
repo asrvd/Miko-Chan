@@ -189,8 +189,11 @@ async def arz(ctx):
 
 @client.command()
 async def say(ctx, *,message):
-  emb = discord.Embed(title=message, color=0xe81741)
-  await ctx.send(embed = emb)
+    if ctx.author.id == 784363251940458516:
+      emb = discord.Embed(title=message, color=0xe81741)
+      await ctx.send(embed = emb)
+    else:
+        await ctx.send(f"{ctx.author.mention} you don't have perms hehehehe")
 
 @client.command()
 async def stop(ctx):
