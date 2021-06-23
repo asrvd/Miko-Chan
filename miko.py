@@ -267,7 +267,7 @@ async def on_message(message):
         "You're too hot to die >.<"
     ]
     
-    if check(message.author.id) == True:
+    if message.author.id in user_list:
         if message.channel.id == CAFE_LOUNGE_ID:
           if message.content.startswith('m.') or message.content.startswith('s.') or message.content.startswith('S.'):
             return
@@ -281,7 +281,7 @@ async def on_message(message):
 
     if 'hate you' in message.content.lower() and 'miko chan' in message.content.lower():
       if message.author.id == 784363251940458516:
-        await message.channel.send(f'{message.author.mention}\nBut I will always love you onii chan..❤️', delete_after=10)
+        await message.channel.send(f'{message.author.mention}\nBut I will always love you asheeshh uwu..❤️', delete_after=10)
       elif message.author.id == 534384083925598218: 
         await message.channel.send(f'{message.author.mention}\nI love ASHISH you baka..😡', delete_after=10) 
       else:
@@ -289,7 +289,7 @@ async def on_message(message):
 
     if 'love you' in message.content.lower() and 'miko chan' in message.content.lower():
       if message.author.id == 784363251940458516:
-        await message.channel.send(f'{message.author.mention}\nI love you too onii chan❤️', delete_after=10)
+        await message.channel.send(f'{message.author.mention}\nI love you too asheeshh uwu❤️', delete_after=10)
       elif message.author.id == 534384083925598218:
         await message.channel.send(f'{message.author.mention}\nI love ASHISH but we can spend some time together SENSEI..❤️', delete_after=10)  
       else:
