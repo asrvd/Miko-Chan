@@ -113,7 +113,7 @@ user_list = []
 
 @client.command()
 async def start(ctx, time: int):
-  if check(ctx.suthor.id) == False:
+  if ctx.author.id not in user_list:
     if ctx.channel.id == CAFE_LOUNGE_ID:
       global pomodoro_timer
       pomodoro_timer = True
@@ -145,7 +145,7 @@ async def start(ctx, time: int):
           #start of clock
           if(t == time*60):
             emb = discord.Embed(
-          title="Timer Started!", description=f"⏱ Your focus time is set to {hour} hour and {minute} minutes ⏱\n\n😀 Good Luck! 😀", color=0xe81741)
+            title="Timer Started!", description=f"⏱ Your focus time is set to {hour} hour and {minute} minutes ⏱\n\n😀 Good Luck! 😀", color=0xe81741)
             await ctx.send(ctx.author.mention, embed=emb)
             user_list.append(ctx.author.id)
 
@@ -182,7 +182,8 @@ async def arz(ctx):
         "*kadu kata hai mere dost intejaar kar sabme batega,\nishq hua hai? intejaar kar tera bhi katega..\n~SENSEI*",
         "*ab na tere aana ki khushi rhi na tere jaane ka gam,\nvo jamana beet gya jab tere diwane the hum..\n~SENSEI*",
         "*Wo tumhen DP dikhaakar gumraah karegi,\nMagar Tum Aadhaar card par adde rehna..\n~KAKASHI*",
-        "*yeh waqt bhi guzar jayega..\n~KAKASHI*"  
+        "*yeh waqt bhi guzar jayega..\n~KAKASHI*",
+        "*na reply chahiye\nna tera sath\nnikal meri zindagi se\nnahi karni tujhse koi baat..\n~SENSEI*"
     ]
     emb = discord.Embed(title="", description=f"{random.choice(shayari)}", color=0xe81741)
     await ctx.send(embed=emb)
