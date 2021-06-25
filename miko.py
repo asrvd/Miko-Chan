@@ -87,7 +87,7 @@ async def help(ctx):
     )
     h.add_field(
       name="__COMMANDS__",
-      value=f"`start (time)` Starts the focus timer.\n`stop` Stops the focus timer.\n`total` Shows the total time you have focused.\n`inspire` Miko chan sends an inspirational quote for you.\n`padhle (user)` Just a normal study reminder for fun.\n`arz` Miko sends a not so heart warming shayari for you.\n`say` Miko says what you want her to say.",
+      value=f"`start (time)` Starts the focus timer.\n`stop` Stops the focus timer.\n`total` Shows the total time you have focused.\n`inspire` Miko chan sends an inspirational quote for you.\n`padhle (user)` Just a normal study reminder for fun.",
       inline=False
     )
     h.add_field(
@@ -173,20 +173,6 @@ async def total(ctx):
     title="Total Focused Time", description=f"You have focused for {hour} hour and {minutes} minutes till now.", color=0xe81741)
   await ctx.send(ctx.author.mention, embed=emb)
     
-@client.command()
-async def arz(ctx):
-    shayari=[
-        "*samundar ke kinare abadi nahi hoti, jisse pyar ho usse shadi nhi hoti..\n~SENSEI*",
-        "*Ladki ka hasna adda hai, jo use pyaar samjhe vo gadha hai..\n~SENSEI*",
-        "*tera bhi katega..\n~SENSEI*",
-        "*kadu kata hai mere dost intejaar kar sabme batega,\nishq hua hai? intejaar kar tera bhi katega..\n~SENSEI*",
-        "*ab na tere aana ki khushi rhi na tere jaane ka gam,\nvo jamana beet gya jab tere diwane the hum..\n~SENSEI*",
-        "*Wo tumhen DP dikhaakar gumraah karegi,\nMagar Tum Aadhaar card par adde rehna..\n~KAKASHI*",
-        "*yeh waqt bhi guzar jayega..\n~KAKASHI*",
-        "*na reply chahiye\nna tera sath\nnikal meri zindagi se\nnahi karni tujhse koi baat..\n~SENSEI*"
-    ]
-    emb = discord.Embed(title="", description=f"{random.choice(shayari)}", color=0xe81741)
-    await ctx.send(embed=emb)
 
 @client.command()
 async def say(ctx, *,message):
@@ -245,27 +231,6 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    #add more quotes!
-    fail_quote = [
-        "Don't give up!",
-        "Failure is only the opportunity to begin again more intelligently.",
-        "You can always bounce back!",
-        "Failure is an attitude, not an outcome."
-    ]
-
-    tired_quote = [
-        "You are strong but you are exhausted.",
-        "I know you are tired, but you have to keep going!",
-        "The more you sweat in practice, the less you bleed in battle.",
-        "WAKE UP!!"
-    ]
-
-    die_quote = [
-        "You can do this!",
-        "Your pet would want you alive",
-        "Let's eat ice cream instead",
-        "You're too hot to die >.<"
-    ]
     
     if message.author.id in user_list:
         if message.channel.id == CAFE_LOUNGE_ID:
@@ -278,22 +243,6 @@ async def on_message(message):
               await message.channel.send(f'{message.author.mention}\n**Onii Chan Baka..** If you talk during your focus time I will not love you😡..', delete_after=15)
         else:
             return
-
-    if 'hate you' in message.content.lower() and 'miko chan' in message.content.lower():
-      if message.author.id == 784363251940458516:
-        await message.channel.send(f'{message.author.mention}\nBut I will always love you asheeshh uwu..❤️', delete_after=10)
-      elif message.author.id == 534384083925598218: 
-        await message.channel.send(f'{message.author.mention}\nI love ASHISH you baka..😡', delete_after=10) 
-      else:
-        await message.channel.send(f'{message.author.mention}\nOkay, I belong to only ASHISH❤️', delete_after=10)
-
-    if 'love you' in message.content.lower() and 'miko chan' in message.content.lower():
-      if message.author.id == 784363251940458516:
-        await message.channel.send(f'{message.author.mention}\nI love you too asheeshh uwu❤️', delete_after=10)
-      elif message.author.id == 534384083925598218:
-        await message.channel.send(f'{message.author.mention}\nI love ASHISH but we can spend some time together SENSEI..❤️', delete_after=10)  
-      else:
-        await message.channel.send(f'{message.author.mention}\nI belong to only ASHISH❤️ But I can leave him for you if you are worthy enough..❤️', delete_after=10)
 
 
 token = config("TOKEN")
