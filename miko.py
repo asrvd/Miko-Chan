@@ -204,7 +204,7 @@ async def lb(ctx):
   except Exception:
     member = "UNKNOWN MEMBER"
   hrs, mins = min_hour(sort_lb[mem_id])
-  position = list(lb.keys()).index(mem_id) + 1
+  position = list(sort_lb.keys()).index(mem_id) + 1
 
   emb = discord.Embed(
     title=f"**TOTAL FOCUSED TIME LEADERBOARD**",
