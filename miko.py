@@ -178,7 +178,7 @@ async def lb(ctx):
   for member in users_list:
     time = db.child("USER_TIME").child(member).child("TOTAL").get().val()
     lb_dict[member] = time
-  sort_lb = sorted(lb_dict.items(), key=lambda x: x[1], reverse=True)
+  sort_lb = dict(sorted(lb_dict.items(), key=lambda x: x[1], reverse=True))
   for mem_id in sort_lb:
     try:
       member = await guild.fetch_member(mem_id)
