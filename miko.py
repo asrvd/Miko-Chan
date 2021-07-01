@@ -188,8 +188,6 @@ async def lb(ctx):
     hrs, mins = min_hour(sort_lb[mem_id])
     if position > 10:
       break
-    if mem_id == str(ctx.author.id):
-      desc += f"**{member} | {hrs} Hrs {mins} Mins**\n"
     else:
       if position == 1:
         desc += f"👑 -> {member} | {hrs} Hrs {mins} Mins\n"
