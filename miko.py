@@ -172,7 +172,7 @@ async def lb(ctx):
   guild = client.get_guild(GUILD_ID)
   users_list=[]
   all_users = db.child("USER_TIME").get()
-  for user in all_users:
+  for user in all_users.each():
     user_id = user.key()
     users_list.append(user_id)
   for member in users_list:
