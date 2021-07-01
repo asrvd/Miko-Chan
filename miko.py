@@ -203,7 +203,7 @@ async def lb(ctx):
     member = await guild.fetch_member(mem_id)
   except Exception:
     member = "UNKNOWN MEMBER"
-  hrs, mins = min_hour(lb[mem_id])
+  hrs, mins = min_hour(sort_lb[mem_id])
   position = list(lb.keys()).index(mem_id) + 1
 
   emb = discord.Embed(
