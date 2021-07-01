@@ -149,6 +149,8 @@ async def start(ctx, time: int):
             title="Timer Started!", description=f"⏱ Your focus time is set to {hour} hour and {minute} minutes ⏱\n\n😀 Good Luck! 😀", color=0xe81741)
             await ctx.send(ctx.author.mention, embed=emb)
             user_list.append(ctx.author.id)
+            if check(ctx.author.id) == False:
+              create(ctx.suthor.id, 0)
 
 
           #break time
@@ -196,7 +198,7 @@ async def lb(ctx):
       else:
         desc += f"#{position} -> {member} | {hrs} Hrs {mins} Mins\n"
 
-  mem_id = ctx.author.id
+  mem_id = str(ctx.author.id)
   try:
     member = await guild.fetch_member(mem_id)
   except Exception:
