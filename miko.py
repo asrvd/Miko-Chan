@@ -196,7 +196,7 @@ async def lb(ctx):
       else:
         desc += f"#{position} -> {member} | {hrs} Hrs {mins} Mins\n"
 
-  mem_id = str(ctx.author.id)
+  mem_id = ctx.author.id
   try:
     member = await guild.fetch_member(mem_id)
   except Exception:
