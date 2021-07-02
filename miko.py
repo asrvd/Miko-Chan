@@ -140,8 +140,7 @@ async def start(ctx, time: int):
 
           #stops clock
           if(pomodoro_timer == False):
-              break
-
+            break
 
           #start of clock
           if(t == time*60):
@@ -151,7 +150,6 @@ async def start(ctx, time: int):
             user_list.append(ctx.author.id)
             if check(ctx.author.id) == False:
               create(ctx.suthor.id, 0)
-
 
           #break time
           elif(t == 0):
@@ -163,9 +161,9 @@ async def start(ctx, time: int):
     else:
       return
   else:
-     emb = discord.Embed(
+    emb = discord.Embed(
       title="", description=f"**You are already working!.**", color=0xe81741)
-     await ctx.send(ctx.author.mention, embed=emb)
+    await ctx.send(ctx.author.mention, embed=emb)
 
 @client.command()
 async def lb(ctx):
@@ -192,7 +190,7 @@ async def lb(ctx):
       break
     else:
       if position == 1:
-        desc += f"👑 -> {member} | {hrs} Hrs {mins} Mins\n"
+        desc += f"👑-> {member} | {hrs} Hrs {mins} Mins\n"
       elif position == 10:  # ONE SPACE LESSER
         desc += f"#{position}-> {member} | {hrs} Hrs {mins} Mins\n"
       else:
