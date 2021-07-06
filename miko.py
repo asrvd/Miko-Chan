@@ -285,7 +285,7 @@ async def love(ctx):
   pos1 = lb_list[0]
   guild = client.get_guild(GUILD_ID)
   user = guild.get_member(int(pos1))
-  embed=discord.Embed(title=f"I love {user.mention} uwu.", color=0xe81741)
+  embed=discord.Embed(title=f"Miko loves {user} uwu.", color=0xe81741)
   await ctx.send(embed=embed)
 
 
