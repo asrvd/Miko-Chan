@@ -378,9 +378,11 @@ async def on_message(message):
         update_ping(mention.id)
         time = afk_time(mention.id)
         if time < 1:
-          time = "few minutes ago."
+          t = "few minutes ago."
+        elif time >= 1:
+          t = f"{time} hours ago."
         await message.channel.send(
-          f"{message.author.mention}, **{mention}** is AFK!\nNOTE: **{note}**\n{time}", delete_after=25,)
+          f"{message.author.mention}, **{mention}** is AFK!\nNOTE: **{note}**\n{t}", delete_after=25,)
 
 
 token = config("TOKEN")
