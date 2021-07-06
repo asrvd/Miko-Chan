@@ -39,7 +39,7 @@ def update_ping(user: int):
   ping = ping + 1
   db2.child("AFK_USER").child(user).update({"PINGS": ping})
 
-def return_ping(user: int):
+def return_pings(user: int):
   ping = db2.child("AFK_USER").child(user).child("PINGS").get().val()
   return ping
 
@@ -354,7 +354,7 @@ async def on_message(message):
       new_nick = nick[5:]
       await member.edit(nick=new_nick)
       aremove(message.author.id)
-      pings = return_ping(message.author.id)
+      pings = return_pings(message.author.id)
       await message.channel.send(f"{member.mention} your AFK has been removed.\nYou were pinged {pings} times.")
   elif message.author.id in user_list:
     if message.channel.id == CAFE_LOUNGE_ID:
