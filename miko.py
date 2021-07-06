@@ -282,10 +282,9 @@ async def love(ctx):
     lb_dict[member] = time
   sort_lb = dict(sorted(lb_dict.items(), key=lambda x: x[1], reverse=True))
   lb_list = list(sort_lb.keys())
-  print(lb_list)
   pos1 = lb_list[0]
   user = client.get_user(int(pos1))
-  embed=discord.Embed(title=f"I love {user.mention} uwu.", color=0xe81741)
+  embed=discord.Embed(title=f"I love {user} uwu.", color=0xe81741)
   await ctx.send(embed=embed)
 
 
