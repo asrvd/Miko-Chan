@@ -283,7 +283,8 @@ async def love(ctx):
   sort_lb = dict(sorted(lb_dict.items(), key=lambda x: x[1], reverse=True))
   lb_list = list(sort_lb.keys())
   pos1 = lb_list[0]
-  user = client.get_user(int(pos1))
+  guild = client.get_guild(GUILD_ID)
+  user = guild.get_member(int(pos1))
   embed=discord.Embed(title=f"I love {user} uwu.", color=0xe81741)
   await ctx.send(embed=embed)
 
