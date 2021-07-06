@@ -347,7 +347,7 @@ async def on_message(message):
     else:
       member = message.author
       nick = member.display_name
-      new_nick = nick[7:]
+      new_nick = nick[5:]
       await member.edit(nick=new_nick)
       aremove(message.author.id)
       await message.channel.send(f"{member.mention} your AFK has been removed.")
@@ -364,13 +364,16 @@ async def on_message(message):
       return
   for mention in message.mentions:
     if acheck(mention.id) == True:
-      note = return_message(mention.id)
-      update_ping(mention.id)
-      time = afk_time(mention.id)
-      if time < 1:
-        time = "few minutes ago."
-      await message.channel.send(
-        f"{message.author.mention}, **{mention}** is AFK!\nNOTE: **{note}**\n{time}", delete_after=25,)
+      if message.author.bot:
+        return
+      else:
+        note = return_message(mention.id)
+        update_ping(mention.id)
+        time = afk_time(mention.id)
+        if time < 1:
+          time = "few minutes ago."
+        await message.channel.send(
+          f"{message.author.mention}, **{mention}** is AFK!\nNOTE: **{note}**\n{time}", delete_after=25,)
 
 
 token = config("TOKEN")
