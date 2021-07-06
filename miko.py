@@ -39,6 +39,10 @@ def update_ping(user: int):
   ping = ping + 1
   db2.child("USER_TIME").child(user).child("PINGS").update(ping)
 
+def return_ping(user: int):
+  ping = db2.child("AFK_USER").child(user).child("PINGS").get().val()
+  return ping
+
 def update_time(user: int):
   time = db2.child("AFK_USER").child(user).child("TIME").get().val()
   time = time + 1
@@ -350,7 +354,8 @@ async def on_message(message):
       new_nick = nick[5:]
       await member.edit(nick=new_nick)
       aremove(message.author.id)
-      await message.channel.send(f"{member.mention} your AFK has been removed.")
+      pings = return_ping(message.author.id)
+      await message.channel.send(f"{member.mention} your AFK has been removed.\nYou were pinged {pings} times.")
   elif message.author.id in user_list:
     if message.channel.id == CAFE_LOUNGE_ID:
       if message.content.startswith('m.') or message.content.startswith('s.') or message.content.startswith('S.'):
