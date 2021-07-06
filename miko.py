@@ -1,7 +1,8 @@
 import os
 import discord
 import datetime
-from discord.ext import commands, timers
+from discord.audit_logs import _transform_verification_level
+from discord.ext import commands, tasks
 import requests
 import json
 import random
@@ -25,6 +26,42 @@ LOUNGE = client.get_channel(CAFE_LOUNGE_ID)
 
 firebase = pyrebase.initialize_app(json.loads(config("firebaseConfig")))
 db = firebase.database()
+
+firebase2 = pyrebase.initialize_app(json.loads(config("firebaseConfig2")))
+db2 = firebase2.database()
+
+def acreate(user: int, message: str):
+  db2.child("AFK_USER").child(user).set(
+    {"MESSAGE": message, "TIME": 0, "PINGS": 0}
+  )
+
+def update_ping(user: int):
+  ping = db2.child("AFK_USER").child(user).child("PINGS").get().val()
+  ping = ping + 1
+  db2.child("USER_TIME").child(user).child("PINGS").update(ping)
+
+def update_time(user: int):
+  time = db2.child("AFK_USER").child(user).child("TIME").get().val()
+  time = time + 1
+  db2.child("USER_TIME").child(user).child("PINGS").update(time)
+
+def afk_time(user: int):
+  time = db2.child("AFK_USER").child(user).child("TIME").get().val()
+  return time
+
+def acheck(user: int):
+  auth = db2.child("AFK_USER").child(user).get().val()
+  if auth == None:
+    return False
+  else:
+    return True
+
+def aremove(user: int):
+  db2.child("AFK_USER").child(user).remove()    
+
+def return_message(user: int):
+  note = db2.child("AFK_USER").child(user).child("MESSAGE").get().val()
+  return note
 
 def create(user: int, time: int):
     db.child("USER_TIME").child(user).set(
@@ -64,6 +101,7 @@ def min_hour(time: int):
 async def on_ready():
   await client.change_presence(status=discord.Status.online, activity=discord.Game('With Ashish'))
   print('Bot is Online.')
+  time_update.start()
 
 @client.command()
 async def inspire(ctx):
@@ -212,7 +250,38 @@ async def lb(ctx):
   emb.set_footer(text=f"#{position} -> {member} | {hrs} Hrs {mins} Mins")
   await ctx.send(embed=emb)
 
-    
+@client.command()
+async def afk(ctx, message):
+  if acheck(ctx.author.id) == False:
+    member = ctx.author
+    old_nick = member.display_name
+    new_nick = "[AFK]" + old_nick
+    await member.edit(nick=new_nick)
+    acreate(ctx.author.id, message)
+    await ctx.send(f"{member.mention} is AFK: **{message}**")
+  else:
+    await ctx.send(f"{ctx.author.mention} You are already AFK.")
+
+
+@client.command()
+async def love(ctx):
+  lb_dict={}
+  users_list=[]
+  all_users = db.child("USER_TIME").get()
+  for user in all_users.each():
+    user_id = user.key()
+    users_list.append(user_id)
+  for member in users_list:
+    time = db.child("USER_TIME").child(member).child("TOTAL").get().val()
+    lb_dict[member] = time
+  sort_lb = dict(sorted(lb_dict.items(), key=lambda x: x[1], reverse=True))
+  lb_list = list(sort_lb.keys())
+  pos1 = lb_list[0]
+  user = client.get_user(pos1)
+  embed=discord.embed(title=f"I love {user} uwu.", color=0xe81741)
+  await ctx.send(embed=embed)
+
+
 @client.command()
 async def total(ctx):
   hour, minutes = return_time(ctx.author.id)
@@ -228,6 +297,12 @@ async def say(ctx, *,message):
       await ctx.send(embed = emb)
     else:
         await ctx.send(f"{ctx.author.mention} you don't have perms hehehehe")
+
+@tasks.loop(hours=1)
+async def time_update():
+  all_users = db2.child("AFK_USER").get()
+  for user in all_users.each():
+    update_time(user.key())
 
 @client.command()
 async def stop(ctx):
@@ -265,7 +340,17 @@ async def padhle(ctx, m1: discord.User = None):
 @client.event
 async def on_message(message):
   await client.process_commands(message)
-  if message.author.id in user_list:
+  if acheck(message.author.id) == True:
+    if message.content.startswith('m.afk') or message.content.startswith('?afk') or message.content.startswith('v!afk'):
+      return
+    else:
+      member = message.author
+      nick = member.display_name
+      new_nick = nick[7:]
+      await member.edit(nick=new_nick)
+      aremove(message.author.id)
+      await message.channel.send(f"{member.mention} your AFK has been removed.")
+  elif message.author.id in user_list:
     if message.channel.id == CAFE_LOUNGE_ID:
       if message.content.startswith('m.') or message.content.startswith('s.') or message.content.startswith('S.'):
           return
@@ -276,6 +361,15 @@ async def on_message(message):
           await message.channel.send(f'{message.author.mention}\n**Onii Chan Baka..** If you talk during your focus time I will not love you😡..', delete_after=15)
     else:
       return
+  for mention in message.mentions:
+    if acheck(mention.id) == True:
+      note = return_message(mention.id)
+      update_ping(mention.id)
+      time = afk_time(mention.id)
+      if time < 1:
+        time = "few minutes ago."
+      await message.channel.send(
+        f"{message.author.mention}, **{mention}** is AFK!\nNOTE: **{note}**\n{time}", delete_after=25,)
 
 
 token = config("TOKEN")
