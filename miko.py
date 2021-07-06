@@ -250,7 +250,7 @@ async def lb(ctx):
   await ctx.send(embed=emb)
 
 @client.command()
-async def afk(ctx, message: None):
+async def afk(ctx, *, message = None):
   if message == None:
     message="None"
   if acheck(ctx.author.id) == False:
