@@ -20,7 +20,6 @@ emojisOn = False
 
 client = commands.Bot(command_prefix='m.', case_insensitive=True, intents=intents)
 client.remove_command("help")
-client.timer_manager = timers.TimerManager(client)
 GUILD = client.get_guild(GUILD_ID)
 LOUNGE = client.get_channel(CAFE_LOUNGE_ID)
 
