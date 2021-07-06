@@ -190,7 +190,7 @@ async def start(ctx, time: int):
             await ctx.send(ctx.author.mention, embed=emb)
             user_list.append(ctx.author.id)
             if check(ctx.author.id) == False:
-              create(ctx.suthor.id, 0)
+              create(ctx.author.id, 0)
 
           #break time
           elif(t == 0):
@@ -260,7 +260,7 @@ async def afk(ctx, *, message = None):
   if acheck(ctx.author.id) == False:
     member = ctx.author
     old_nick = member.display_name
-    new_nick = "[AFK]" + old_nick
+    new_nick = "[AFK] " + old_nick
     await member.edit(nick=new_nick)
     acreate(ctx.author.id, message)
     await ctx.send(f"{member.mention} is AFK: **{message}**")
@@ -281,9 +281,9 @@ async def love(ctx):
     lb_dict[member] = time
   sort_lb = dict(sorted(lb_dict.items(), key=lambda x: x[1], reverse=True))
   lb_list = list(sort_lb.keys())
-  pos1 = lb_list[0]
+  pos1 = lb_list[1]
   user = client.get_user(pos1)
-  embed=discord.Embed(title=f"I love {user} uwu.", color=0xe81741)
+  embed=discord.Embed(title=f"I love {user.mention} uwu.", color=0xe81741)
   await ctx.send(embed=embed)
 
 
@@ -351,7 +351,7 @@ async def on_message(message):
     else:
       member = message.author
       nick = member.display_name
-      new_nick = nick[5:]
+      new_nick = nick[6:]
       await member.edit(nick=new_nick)
       pings = return_pings(message.author.id)
       aremove(message.author.id)
