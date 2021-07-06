@@ -382,7 +382,7 @@ async def on_message(message):
         elif time >= 1:
           t = f"{time} hours ago."
         await message.channel.send(
-          f"{message.author.mention}, **{mention}** is AFK!\nNOTE: **{note}**\n{t}", delete_after=25,)
+          f"{message.author.mention}, **{mention}** is AFK!\nNOTE: **{note}**", delete_after=25,)
 
 
 token = config("TOKEN")
