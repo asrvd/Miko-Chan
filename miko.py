@@ -37,7 +37,7 @@ def acreate(user: int, message: str):
 def update_ping(user: int):
   ping = db2.child("AFK_USER").child(user).child("PINGS").get().val()
   ping = ping + 1
-  db2.child("USER_TIME").child(user).child("PINGS").update(ping)
+  db2.child("AFK_USER").child(user).child("PINGS").update(ping)
 
 def return_ping(user: int):
   ping = db2.child("AFK_USER").child(user).child("PINGS").get().val()
@@ -46,7 +46,7 @@ def return_ping(user: int):
 def update_time(user: int):
   time = db2.child("AFK_USER").child(user).child("TIME").get().val()
   time = time + 1
-  db2.child("USER_TIME").child(user).child("PINGS").update(time)
+  db2.child("AFK_USER").child(user).child("PINGS").update(time)
 
 def afk_time(user: int):
   time = db2.child("AFK_USER").child(user).child("TIME").get().val()
