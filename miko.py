@@ -272,6 +272,7 @@ async def afk(ctx, *, message = None):
 async def love(ctx):
   lb_dict={}
   users_list=[]
+  lb_list=[]
   all_users = db.child("USER_TIME").get()
   for user in all_users.each():
     user_id = user.key()
@@ -281,7 +282,8 @@ async def love(ctx):
     lb_dict[member] = time
   sort_lb = dict(sorted(lb_dict.items(), key=lambda x: x[1], reverse=True))
   lb_list = list(sort_lb.keys())
-  pos1 = lb_list[1]
+  print(lb_list)
+  pos1 = lb_list[0]
   user = client.get_user(pos1)
   embed=discord.Embed(title=f"I love {user.mention} uwu.", color=0xe81741)
   await ctx.send(embed=embed)
