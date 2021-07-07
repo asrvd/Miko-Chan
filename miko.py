@@ -157,48 +157,51 @@ user_list = []
 async def start(ctx, time: int):
   if ctx.author.id not in user_list:
     if ctx.channel.id == CAFE_LOUNGE_ID:
-      global pomodoro_timer
-      pomodoro_timer = True
-      global showTimer
-      showTimer = False
+      if time <= 90:
+        global pomodoro_timer
+        pomodoro_timer = True
+        global showTimer
+        showTimer = False
 
-      t = time*60 + 1 #pomodoro time in seconds
-      hour = int(time/60)
-      minute = time%60
+        t = time*60 + 1 #pomodoro time in seconds
+        hour = int(time/60)
+        minute = time%60
 
-      while(t):
-          mins, secs = divmod(t, 60) 
-          timer = "**{:02d}:{:02d}**".format(mins, secs) 
-          await asyncio.sleep(1) 
-          t -= 1
+        while(t):
+            mins, secs = divmod(t, 60) 
+            timer = "**{:02d}:{:02d}**".format(mins, secs) 
+            await asyncio.sleep(1) 
+            t -= 1
 
-          #displays time remaining
-          if(showTimer):
-            emb = discord.Embed(
-            title="", description=f"{timer}", color=0xe81741)
-            await ctx.send(embed=emb, delete_after=20) 
-            showTimer = False
+            #displays time remaining
+            if(showTimer):
+              emb = discord.Embed(
+              title="", description=f"{timer}", color=0xe81741)
+              await ctx.send(embed=emb, delete_after=20) 
+              showTimer = False
 
-          #stops clock
-          if(pomodoro_timer == False):
-            break
+            #stops clock
+            if(pomodoro_timer == False):
+              break
 
-          #start of clock
-          if(t == time*60):
-            emb = discord.Embed(
-            title="Timer Started!", description=f"⏱ Your focus time is set to {hour} hour and {minute} minutes ⏱\n\n😀 Good Luck! 😀", color=0xe81741)
-            await ctx.send(ctx.author.mention, embed=emb)
-            user_list.append(ctx.author.id)
-            if check(ctx.author.id) == False:
-              create(ctx.author.id, 0)
+            #start of clock
+            if(t == time*60):
+              emb = discord.Embed(
+              title="Timer Started!", description=f"⏱ Your focus time is set to {hour} hour and {minute} minutes ⏱\n\n😀 Good Luck! 😀", color=0xe81741)
+              await ctx.send(ctx.author.mention, embed=emb)
+              user_list.append(ctx.author.id)
+              if check(ctx.author.id) == False:
+                create(ctx.author.id, 0)
 
-          #break time
-          elif(t == 0):
-            emb = discord.Embed(
-            title="Timer Ended!", description=f"⏱ Your focus time has ended ⏱\n\n😀 Take a break 😀", color=0xe81741)
-            await ctx.send(ctx.author.mention, embed=emb)
-            user_list.remove(ctx.author.id)
-            add_time(ctx.author.id, time)        
+            #break time
+            elif(t == 0):
+              emb = discord.Embed(
+              title="Timer Ended!", description=f"⏱ Your focus time has ended ⏱\n\n😀 Take a break 😀", color=0xe81741)
+              await ctx.send(ctx.author.mention, embed=emb)
+              user_list.remove(ctx.author.id)
+              add_time(ctx.author.id, time)
+      else:
+        await ctx.send(f"{ctx.author.mention} You can start a timer for a maximum of 90 minutes, please try again!")        
     else:
       return
   else:
@@ -256,7 +259,7 @@ async def lb(ctx):
 @client.command()
 async def afk(ctx, *, message = None):
   if message == None:
-    message="None"
+    message="AFK"
   if acheck(ctx.author.id) == False:
     member = ctx.author
     old_nick = member.display_name
