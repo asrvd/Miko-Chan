@@ -12,6 +12,7 @@ import pyrebase
 
 GUILD_ID = 785024897863647282
 CAFE_LOUNGE_ID = 801100961313194004
+GENERAL_ID = 785024897863647285
 
 intents = discord.Intents.default()
 intents.members = True
@@ -331,6 +332,13 @@ async def stop(ctx):
   else:
     return    
 
+@client.command()
+async def msay(ctx, *, message):
+  if ctx.author.id == 784363251940458516:
+    guild = client.get_guild(GUILD_ID)
+    general = guild.get_channel(GENERAL_ID)
+    await general.send(message)
+  
 @client.command()
 async def padhle(ctx, m1: discord.User = None):
   padhle_list=[
