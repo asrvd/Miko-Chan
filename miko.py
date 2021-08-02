@@ -109,13 +109,11 @@ async def on_ready():
 
 @client.command()
 async def inspire(ctx):
-  def get_quote():
-      response = requests.get("https://zenquotes.io/api/random")
-      json_data = json.loads(response.text)
-      quote = json_data[0]['q'] + " -" + json_data[0]['a']
-      return quote
-  quote = get_quote()
-  await ctx.send(quote)  
+  response = requests.get("https://zenquotes.io/api/random")
+  json_data = json.loads(response.text)
+  quote = json_data[0]['q'] + " -" + json_data[0]['a']
+  embed = discord.Embed(title="Miko Inspires!", description=f"{***json_data[0]['q']***}\n~{json_data[0]['a']}", color=0xe81741)  
+  await ctx.send(embed=embed)  
 
 
 @client.command()
